@@ -1,0 +1,49 @@
+---
+
+#### if nfsserver and ( unrar_cmd or  unrar_pkg) is set, unpack locally
+- name: include sap-unpack-media
+  include_tasks: sap-unpack-media.yml
+  when: 
+    - not((sap_hana_mediacheck_serverpath is undefined) or (sap_hana_mediacheck_serverpath is none) or (sap_hana_mediacheck_serverpath | trim == ''))
+    - not((sap_hana_mediacheck_unarchive_cmd is undefined) or (sap_hana_mediacheck_unarchive_cmd is none) or sap_hana_mediacheck_(unarchive_cmd | trim == '')) or not ((sap_hana_mediacheck_unarchive_pkg is undefined) or sap_hana_mediacheck_(unarchive_pkg is none) or ( sap_hana_mediacheck_unrarchive_pkg | trim == '') ) 
+
+#### if install_nfs and no unrar* is set mount the installation dir
+- name: include sap-mount-media
+  include_tasks: sap-mount-media.yml
+  when: 
+    - not( (sap_hana_mediacheck_serverpath is undefined) or ( sap_hana_mediacheck_serverpath is none) or (sap_hana_mediacheck_serverpath | trim == '') )
+    - (sap_hana_mediacheck_unarchive_cmd is undefined) or (sap_hana_mediacheck_unarchive_cmd is none) or (sap_hana_mediacheck_unarchive_cmd | trim == '')
+    - (sap_hana_mediacheck_archive is undefined) or (sap_hana_mediacheck_archive is none) or (sap_hana_mediacheck_archive | trim == '') 
+
+#### At this point hdblcm must be available, otherwise break ...
+- name: Ensure HANA installation Command is available at "{{  sap_hana_installdir }}"
+  stat:
+    path: "{{  sap_hana_installdir + '/hdblcm' }}"
+
+#### Now get the HANA installation version and make it available for follwing roles in the same playbook
+- name: Get HANA Version Information
+  shell:  awk ' ( $1 == "fullversion:" ) { print $2}'  "{{ sap_hana_installdir }}"/server/manifest
+  register: sap_hana_mediacheck_register_hana_version
+
+- name: Report found HANA version
+  debug:
+    msg: "Major: {{ sap_hana_mediacheck_register_hana_version.stdout.split('.')[0]}}\nMinor: {{ sap_hana_mediacheck_register_hana_version.stdout.split('.')[1]}}\nSPS:   {{ sap_hana_mediacheck_register_hana_version.stdout.split('.')[2]}}\n"
+
+- name: Make HANA Major Version persistent
+  set_fact: 
+    sap_hana_version: "{{ sap_hana_mediacheck_register_hana_version.stdout.split('.')[0] }}"
+
+# Following is always 0 today 
+- name: Make HANA minor Version persistent
+  set_fact:
+    sap_hana_minor_version: "{{ sap_hana_mediacheck_register_hana_version.stdout.split('.')[1] }}"
+
+- name: Make HANA SPS Version persistent
+  set_fact: 
+    sap_hana_sps: "{{ sap_hana_mediacheck_register_hana_version.stdout.split('.')[2][:-1] }}" 
+
+- name: Hana version found
+  debug:
+    msg: "Hana Version {{ sap_hana_version }} SPS {{ sap_hana_sps }} is to be installed"
+
+...

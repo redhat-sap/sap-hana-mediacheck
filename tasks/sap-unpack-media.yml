@@ -1,0 +1,42 @@
+---
+
+- name: create temporary mountpoint
+  tempfile:
+    path: /tmp
+    prefix: hana-archive
+    state: directory
+  register: sap_hana_mediacheck_register_tmpdir
+
+- name: mount installdir
+  mount:
+      src: "{{ sap_hana_mediacheck_serverpath }}"
+      name: "{{ sap_hana_mediacheck_register_tmpdir.path }}"
+      fstype: nfs
+      opts: "{{ sap_hana_mediacheck_nfs_opts | default(omit) }}"
+      state: mounted
+
+- name: ensure directory for unpacking Hana is created
+  file:
+    name: "{{ sap_hana_mediacheck_install }}"
+    state: directory
+    owner: root
+    group: root
+
+- name: extract HANA Package
+  shell: "{{ sap_hana_mediacheck_unarchive_cmd + ' ' + sap_hana_mediacheck_register_tmpdir.path + '/' + sap_hana_mediacheck_archive }}" 
+  args:
+    chdir: "{{ sap_hana_mediacheck_install }}"
+    creates: "{{ sap_hana_installdir + '/hdblcm' }}"
+
+- name: unmount installdir
+  mount:
+      src: "{{ sap_hana_mediacheck_serverpath }}"
+      name: "{{ sap_hana_mediacheck_register_tmpdir.path }}"
+      fstype: nfs
+      state: unmounted
+
+- name: ensure tempory directory is removed
+  file:
+    name: "{{ sap_hana_mediacheck_register_tmpdir.path }}"
+    state: absent
+...

@@ -1,0 +1,6 @@
+#####
+#
+# nfs client packages
+sap_hana_mediacheck_packages:
+        - nfs-utils
+

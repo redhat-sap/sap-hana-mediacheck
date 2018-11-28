@@ -1,0 +1,15 @@
+
+# Install NFS Client packages
+# We will always do it, as it is required by SAP anyway
+- name: install NFS packages for mounting
+  yum: 
+    name: "{{ sap_hana_mediacheck_packages }}"
+    state: present
+
+# We need to install an unrar package
+- name: install unrar package
+  yum: 
+    state: present 
+    name: "{{ sap_hana_mediacheck_unrar_pkg }}"
+  when: not( (sap_hana_mediacheck_unrar_pkg is undefined) or (sap_hana_mediacheck_unrar_pkg is none) or (sap_hana_mediacheck_unrar_pkg | trim == '') )
+

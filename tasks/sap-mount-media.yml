@@ -1,0 +1,26 @@
+---
+##
+# This module creates the mountpoint if it doesn't exist.
+# As such I need to provide  owner & group.
+# This can change when something is mounted and the setup fails in a second run
+# So as a quick fix I put ignore_errors: yes, so that it can safely fail in second run.
+#  if something goes wrong in the first run it's fine, the mount will fail
+#  TODO: Create some better way to ensure the install dir
+##
+- name: Ensure Mountpoint for SAP HANA Installdirectory is available
+  file:
+    name: "{{ sap_hana_mediacheck_mountpoint }}"
+    state: directory
+
+- name: mount installdir
+  mount:
+      src: "{{ sap_hana_mediacheck_serverpath }}"
+      name: "{{ sap_hana_mediacheck_mountpoint }}"
+      fstype: nfs
+      state: mounted
+      opts: "{{ sap_hana_mediacheck_nfs_opts|default(omit) }}"
+  register: sap_hana_mediacheck_register_installdir_mounted
+
+# At the end of the installation the installationdir might be useful to ummount
+# when hana_installdir_mounted has been registered
+...

@@ -1,0 +1,43 @@
+---
+# defaults file for sap-hana-mediacheck
+
+# Parameters for sap-hana-mediacheck
+
+# Mandatory Parameters
+
+# This is the installation directory from where we want to install Hana
+# In the initial installation bundle this looks like:
+#  "{{ sap_hana_mountpoint + '/somepath/DATA_UNITS/HDB_SERVER_LINUX_' + ansible_architecture|upper }}"
+# For a Update Package this looks like:
+# 
+
+sap_hana_installdir: 
+
+# For a bundle this is:
+
+# OPTIONAL Parameters
+
+# NFS Options
+# If you have an NFS share that provides the SAP HANA installation binaries, use the following variables to mount it
+# Please NOTE: You have to unmount it after installing HANA, or the mount stays. It is not added to /etc/fstab though
+#sap_hana_mediacheck_serverpath:
+#sap_hana_mediacheck_mountpoint:
+#sap_hana_mediacheck_nfs_opts: 
+
+# If you provide the downloaded rar files on an NFS share and you want to unpack the rar files locally  define the following variables:
+#
+#sap_hana_mediacheck_serverpath: "<ip-address>:/export/directory"` # NFS Share that holds the archive files
+#sap_hana_mediacheck_nfs_opts:                                     # NFS Mount Options, eg. "-o version=3"
+#sap_hana_mediacheck_archive: path/to/archive #  Relative path to the archive that holds the SAP software
+#sap_hana_mediacheck_install:    i            # /install` where to unpack the Hana install binaries
+#sap_hana_mediacheck_unarchive_cmd:           # Command to unpack the hana binaries, e.g. "unrar x", "SAPCAR xvf" or "tar xvf"
+#sap_hana_mediacheck_unarchive_pkg:           #  Set this to an RPM if you need to install an unarchiver package, e.g. unrar
+#
+# PLEASE NOTE: Red Hat cannot provide an unrar command, due to license restrictions, so that you need to provide it externally. 
+# If you have an appropriate package on your satellite server or internet access you can provide the name of the package 
+# Here are some examples where to get working unrar packages:
+#     - `http://apt.sw.be/redhat/el6/en/x86_64/rpmforge/RPMS/unrar-4.2.3-1.el6.rf.x86_64.rpm` for RHEL 6
+#     - `https://dl.fedoraproject.org/pub/epel/7Server/x86_64/Packages/u/unar-1.10.1-1.el7.x86_64.rpm` for RHEL 7
+#     - `unar` if you have it in your package repository
+#
+
