@@ -1,0 +1,11 @@
+---
+- hosts: all
+
+  vars:
+          # SAP-Media Check (get unpacked HANA from Mountpoint)
+          sap_hana_mediacheck_serverpath: "mynfssrv:/install"
+          sap_hana_mediacheck_mountpoint: /install
+          sap_hana_installdir: "{{ sap_hana_mediacheck_mountpoint + '/51052325_HANA2_20/DATA_UNITS/HDB_SERVER_LINUX_' + ansible_architecture|upper }}"
+
+  roles:
+    - sap-hana-mediacheck

@@ -1,0 +1,14 @@
+---
+- hosts: all
+  remote_user: root
+
+  vars:
+          # SAP-Media Check (unpack HXE from mountpoint)
+          sap_hana_mediacheck_serverpath: "mynfssrv:/install"
+          sap_hana_mediacheck_archive: "download/hxe.tgz"
+          sap_hana_mediacheck_install: "/install"
+          sap_hana_mediacheck_unarchive_cmd: "tar xzf"
+          sap_hana_installdir: "{{ sap_hana_mediacheck_install + '/HANA_EXPRESS_20/DATA_UNITS/HDB_SERVER_LINUX_' + ansible_architecture|upper }}"
+
+  roles:
+    - sap-hana-mediacheck
