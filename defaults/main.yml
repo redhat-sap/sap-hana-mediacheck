@@ -40,4 +40,3 @@ sap_hana_installdir:
 #     - `https://dl.fedoraproject.org/pub/epel/7Server/x86_64/Packages/u/unar-1.10.1-1.el7.x86_64.rpm` for RHEL 7
 #     - `unar` if you have it in your package repository
 #
-
