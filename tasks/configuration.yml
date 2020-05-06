@@ -5,7 +5,7 @@
   include_tasks: sap-unpack-media.yml
   when: 
     - not((sap_hana_mediacheck_serverpath is undefined) or (sap_hana_mediacheck_serverpath is none) or (sap_hana_mediacheck_serverpath | trim == ''))
-    - not((sap_hana_mediacheck_unarchive_cmd is undefined) or (sap_hana_mediacheck_unarchive_cmd is none) or sap_hana_mediacheck_(unarchive_cmd | trim == '')) or not ((sap_hana_mediacheck_unarchive_pkg is undefined) or sap_hana_mediacheck_(unarchive_pkg is none) or ( sap_hana_mediacheck_unrarchive_pkg | trim == '') ) 
+    - not((sap_hana_mediacheck_unarchive_cmd is undefined) or (sap_hana_mediacheck_unarchive_cmd is none) or (sap_hana_mediacheck_unarchive_cmd | trim == '')) or not ((sap_hana_mediacheck_unarchive_pkg is undefined) or sap_hana_mediacheck_(unarchive_pkg is none) or ( sap_hana_mediacheck_unrarchive_pkg | trim == '') ) 
 
 #### if install_nfs and no unrar* is set mount the installation dir
 - name: include sap-mount-media
