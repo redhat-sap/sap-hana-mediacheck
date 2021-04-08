@@ -137,8 +137,7 @@ Please read the [developer guidelines](./README.DEV.md)  if you want to contribu
 License
 -------
 
-GNU GENERAL PUBLIC LICENSE
-Version 3, 29 June 2007
+Apache License 2.0
 
 
 Author Information

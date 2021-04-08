@@ -1,7 +1,7 @@
 galaxy_info:
   author: Markus Koch, Thomas Bludau
   description: Checks SAP HANA Installation Media
-  license: Apache 2.0
+  license: Apache
   min_ansible_version: 2.4
   platforms:
   - name: EL
