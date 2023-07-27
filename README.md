@@ -1,3 +1,7 @@
+# THIS ROLE IS DEPRECATED AND NO LONGER DEVELOPED
+
+The successor is now developed as part of the [community.sap_install](https://github.com/sap-linuxlab/community.sap_install) collection.
+
 sap-hana-mediacheck
 ===================
 
